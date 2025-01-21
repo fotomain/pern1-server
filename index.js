@@ -41,7 +41,7 @@ if( DB_MODE==='GLOBAL' )
                 console.log('=== err1 ')
                 throw err1;
             }
-            console.log("=== version: ",result.rows[0].version);
+            console.log("=== version:",result.rows[0].version);
             // client.end(function (err2) {
             //     if (err2) {
             //         console.log('=== err2 ')
