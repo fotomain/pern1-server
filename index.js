@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 4000;
 
 const cors = require("cors");
 
@@ -14,6 +14,7 @@ const Pool = require("pg").Pool;
 
 
 const DB_MODE='GLOBAL'
+// const DB_MODE='LOCAL'
 var pool;
 if( DB_MODE==='GLOBAL' )
 {
@@ -22,7 +23,8 @@ if( DB_MODE==='GLOBAL' )
         password: "AVNS_y2RajkrJvNiw73ANfPR",
         host: "pg-todos-1c74105d-foto888999.k.aivencloud.com",
         port: "24435",
-        database: "defaultdb",
+        //database: "defaultdb",
+        database: "perntodo",
         ssl: {
             rejectUnauthorized: true,
             ca: fs.readFileSync("./ca.pem").toString(),
@@ -42,6 +44,16 @@ if( DB_MODE==='GLOBAL' )
                 throw err1;
             }
             console.log("=== version:",result.rows[0].version);
+
+        //     CREATE TABLE todo(
+        //         todo_id SERIAL PRIMARY KEY,
+        //         description VARCHAR(255)
+        // );
+        //
+        //
+        //     SELECT * FROM todo
+
+
             // client.end(function (err2) {
             //     if (err2) {
             //         console.log('=== err2 ')
@@ -76,7 +88,7 @@ app.post("/todos", async (req, res) => {
             "INSERT INTO todo (description) VALUES($1) RETURNING *",
             [description]
         );
-
+        console.log("=== insert ",newTodo);
         res.json(newTodo.rows[0]);
     } catch (err) {
         console.error(err.message);
